@@ -6,6 +6,8 @@
 		  dropZones = document.querySelectorAll(".drop-zone"),
 		  theGameBoard = document.querySelector(".puzzle-board");
 
+	const piecePaths = ["topLeft", "topRight","bottomLeft","bottomRight"];
+
 	//theButtons become this: 
 	//[
 	// <img1>
@@ -14,13 +16,19 @@
 	// <img4> 
 	// ]
 
-	function changeBgImg (){
+	function changeImageSet (){
+	
 		//debugger; //pause our code execution at this point
 		let key = this.dataset.bgref;
 		console.log(key);
 
 		theGameBoard.style.backgroundImage = `url(images/backGround${key}.jpg)`;
+
+		piecePaths.forEach((piece, index) => {
+			puzzlePieces[index].src = `images/${piece + this.dataset.bgref}.jpg`; 
+		})
 		}
+
 	function startDrag (event) {
 		console.log("started dragging");
 		event.dataTransfer.setData("draggedElement", event.target.id);
@@ -45,7 +53,7 @@
 	}
 
 		//these are the triggers we want the user to use to fire off events
-	theButtons.forEach(button => button.addEventListener("click", changeBgImg));
+	theButtons.forEach(button => button.addEventListener("click", changeImageSet));
 	puzzlePieces.forEach(piece => piece.addEventListener("dragstart", startDrag));
 	dropZones.forEach(zone => {
 	 zone.addEventListener ("dragover" , draggedOver);
